@@ -8,6 +8,9 @@
 function btnPress(event){
     const playerPressed=event.key;
     // console.log('press', playerPressed)
+    if(playerPressed==='Escape'){
+        gameOver();
+    }
 
     const alphabetElement = document.getElementById('current-alphabet');
     const cAlphabet=alphabetElement.innerText;
@@ -16,21 +19,35 @@ function btnPress(event){
 
     // check
     if(playerPressed === expectedAlphabet){
-        const currentScoreElement=document.getElementById('current-score');
-        const currentScoreText=currentScoreElement.innerText;
-        const currentScore=parseInt(currentScoreText);
-        // console.log(currentScoreText);
 
-        const newScore=currentScore+1;
-        currentScoreElement.innerText=newScore;
-
+        const currentScore=getTextElementValueById('current-score');
+        const updatedScore=currentScore+1;
+        setTextElementValueById('current-score',updatedScore);
 
 
         removeColor(expectedAlphabet);
         continueGame();
     }
     else{
-        // console.log('miss the point')
+        
+        const currentLife=getTextElementValueById('current-life');
+        const updatedLife=currentLife-1;
+        setTextElementValueById('current-life',updatedLife);
+
+
+        if(updatedLife===0){
+            gameOver();
+        }
+
+        // const currentLifeElement=document.getElementById('current-life');
+        // const currentLifeText=currentLifeElement.innerText;
+        // const currentLife=parseInt(currentLifeText);
+        // // console.log(currentScoreText);
+
+        // const newLife=currentLife-1;
+        // currentLifeElement.innerText=newLife;
+
+        // // console.log('miss the point')
     }
 }
 document.addEventListener('keyup', btnPress)
@@ -51,6 +68,21 @@ function continueGame(){
 
 function play(){
     hideId('home-screen');
+    hideId('final-score');
     showId('play-ground');
+
+    setTextElementValueById('current-life',2);
+    setTextElementValueById('current-score',0);
     continueGame();
+}
+ function gameOver(){
+    hideId('play-ground');
+    showId('final-score')
+    // update final score
+    const lastScore=getTextElementValueById('current-score');
+    setTextElementValueById('last-score', lastScore);
+
+    // clear the alphabet color
+    const currentAlphabet=getElementTextById('current-alphabet');
+    removeColor(currentAlphabet);
 }
