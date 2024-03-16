@@ -14,6 +14,11 @@ function addColor(elementId){
     element.classList.add('bg-orange-500');
 }
 
+function removeColor(elementId){
+    const element=document.getElementById(elementId);
+    element.classList.remove('bg-orange-500');
+}
+
 // random-alphabet
 function getAlphabet(){
     const alphabetString='abcdefghijklmnopqrstuvwxyz'
